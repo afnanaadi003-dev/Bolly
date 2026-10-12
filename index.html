@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolly Haven - 100 Top Bollywood Actresses & Models</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        haven: {
+                            rose: '#F4C2C2',
+                            gold: '#D4AF37',
+                            amethyst: '#2E1A47',
+                            dark: '#120A1D',
+                            card: 'rgba(35, 18, 55, 0.75)',
+                            accent: '#FF6B95'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0F0818;
+            color: #F3E8FF;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(35, 18, 55, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .glass-panel-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-panel-hover:hover {
+            transform: translateY(-5px);
+            border-color: rgba(244, 194, 194, 0.5);
+            box-shadow: 0 15px 35px rgba(255, 107, 149, 0.25);
+        }
+
+        /* Floating Flower Petals Effect */
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #f4c2c2, #ff6b95);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.3;
+            pointer-events: none;
+            animation: animatePetal 12s linear infinite;
+        }
+
+        @keyframes animatePetal {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) rotate(0deg);
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(120px, 800px) rotate(720deg);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F0818;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2E1A47;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen pb-12">
+
+    <!-- Floating Background Petals Container -->
+    <div id="petals-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-yellow-500/20 px-4 lg:px-8 py-3 transition-all">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('directory')">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-haven-gold via-haven-accent to-haven-rose flex items-center justify-center shadow-lg shadow-haven-accent/30">
+                    <i class="fa-solid font-serif text-haven-dark font-bold text-xl">B</i>
+                </div>
+                <div>
+                    <h1 class="font-serif text-2xl font-bold tracking-wider bg-gradient-to-r from-haven-rose via-haven-gold to-white bg-clip-text text-transparent">BOLLY HAVEN</h1>
+                    <p class="text-[10px] text-haven-rose/70 uppercase tracking-widest font-semibold">Cinematic Directory & Glamour</p>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <button onclick="switchTab('directory')" id="nav-directory" class="px-3 py-1.5 rounded-full text-haven-gold border border-haven-gold/40 bg-haven-amethyst/50 transition">
+                    <i class="fa-solid fa-sparkles mr-1.5 text-xs"></i>Directory (100 Stars)
+                </button>
+                <button onclick="switchTab('admin')" id="nav-admin" class="px-3 py-1.5 rounded-full text-gray-300 hover:text-haven-rose transition">
+                    <i class="fa-solid fa-user-shield mr-1.5 text-xs"></i>Admin Hub
+                </button>
+                <button onclick="switchTab('brands')" id="nav-brands" class="px-3 py-1.5 rounded-full text-gray-300 hover:text-haven-rose transition">
+                    <i class="fa-solid fa-handshake mr-1.5 text-xs"></i>Brand Deals
+                </button>
+            </nav>
+
+            <!-- Actions Right -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openDownloadModal()" class="px-4 py-2 rounded-full text-xs md:text-sm font-semibold bg-gradient-to-r from-haven-gold to-amber-600 text-haven-dark hover:brightness-110 transition shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Download Code</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 mt-6">
+
+        <!-- DIRECTORY SECTION -->
+        <section id="directory-section" class="block space-y-6">
+            <!-- Hero Banner -->
+            <div class="relative rounded-2xl overflow-hidden glass-panel p-6 lg:p-10 text-center border border-haven-gold/30">
+                <div class="absolute inset-0 bg-gradient-to-r from-haven-amethyst/80 via-purple-900/60 to-haven-dark/80 z-0"></div>
+                <div class="relative z-10 max-w-3xl mx-auto space-y-4">
+                    <span class="px-3 py-1 rounded-full text-xs uppercase tracking-widest bg-haven-accent/20 text-haven-rose border border-haven-accent/40 font-semibold">Exclusive Celebrity Vault</span>
+                    <h2 class="font-serif text-3xl md:text-5xl font-bold text-white leading-tight">100 Top Bollywood Actresses & Runway Models</h2>
+                    <p class="text-haven-rose/80 text-sm md:text-base">Explore rich galleries, live reaction systems, filmographies, and exclusive profiles of India's iconic starlets.</p>
+                </div>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="glass-panel p-4 rounded-xl flex flex-col md:flex-row gap-4 items-center justify-between border border-haven-gold/20">
+                <!-- Search Input -->
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-haven-rose/50"></i>
+                    <input type="text" id="search-input" onkeyup="filterStars()" placeholder="Search star name, category, style..." class="w-full bg-haven-dark/80 text-white placeholder-haven-rose/40 pl-10 pr-4 py-2 rounded-lg border border-haven-amethyst focus:outline-none focus:border-haven-gold text-sm">
+                </div>
+
+                <!-- Category Tabs -->
+                <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-start md:justify-end">
+                    <button onclick="setCategory('All')" class="cat-btn active px-4 py-1.5 rounded-lg text-xs font-semibold bg-haven-gold text-haven-dark transition">All (100)</button>
+                    <button onclick="setCategory('Star Actresses')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-haven-dark text-haven-rose border border-haven-amethyst hover:border-haven-gold transition">Star Actresses</button>
+                    <button onclick="setCategory('Runway Models')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-haven-dark text-haven-rose border border-haven-amethyst hover:border-haven-gold transition">Runway Models</button>
+                    <button onclick="setCategory('Rising Icons')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-haven-dark text-haven-rose border border-haven-amethyst hover:border-haven-gold transition">Rising Icons</button>
+                </div>
+            </div>
+
+            <!-- Stars Grid Container -->
+            <div id="stars-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Pagination Control -->
+            <div id="pagination-container" class="flex justify-center items-center gap-2 pt-6">
+                <!-- JS calculated page buttons -->
+            </div>
+        </section>
+
+        <!-- ADMIN PROFILE SECTION -->
+        <section id="admin-section" class="hidden space-y-8">
+            <!-- Executive Banner -->
+            <div class="glass-panel rounded-2xl p-6 lg:p-8 border border-haven-gold/30">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" alt="Amim Ahsan" class="w-32 h-32 rounded-2xl object-cover border-2 border-haven-gold shadow-xl">
+                    <div class="space-y-2 text-center md:text-left flex-1">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                            <div>
+                                <h2 class="font-serif text-3xl font-bold text-white flex items-center justify-center md:justify-start gap-2">
+                                    Amim Ahsan <i class="fa-solid fa-circle-check text-haven-gold text-lg"></i>
+                                </h2>
+                                <p class="text-haven-rose/80 text-sm font-medium">Founder & Executive Producer @ Bolly Haven Studio</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs bg-haven-gold/20 text-haven-gold border border-haven-gold/40 self-center md:self-auto font-mono">Exec ID: #BH-001</span>
+                        </div>
+                        <p class="text-xs text-gray-300 max-w-2xl leading-relaxed">
+                            Curating luxury cinematic talents, model runway placements, and top-tier Bollywood brand collaborations across South Asia and international fashion houses.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Live Income Counters -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-haven-amethyst">
+                    <div class="p-4 rounded-xl bg-haven-dark/60 text-center">
+                        <p class="text-xs text-haven-rose/60">Annual Revenue</p>
+                        <p class="text-xl font-bold text-haven-gold font-mono">$2.4M USD</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-haven-dark/60 text-center">
+                        <p class="text-xs text-haven-rose/60">Active Brand Contracts</p>
+                        <p class="text-xl font-bold text-haven-rose font-mono">28 Brands</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-haven-dark/60 text-center">
+                        <p class="text-xs text-haven-rose/60">Talents Managed</p>
+                        <p class="text-xl font-bold text-white font-mono">100 Profiles</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-haven-dark/60 text-center">
+                        <p class="text-xs text-haven-rose/60">Platform Reach</p>
+                        <p class="text-xl font-bold text-purple-400 font-mono">14.2M/mo</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Posts & Announcements Feed -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left: Post Creation & Hub -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass-panel p-5 rounded-xl space-y-3">
+                        <h3 class="font-serif text-lg font-bold text-white"><i class="fa-solid fa-bullhorn text-haven-gold mr-2"></i>Publish Studio Announcement</h3>
+                        <textarea id="admin-post-input" rows="3" placeholder="Share official updates, campaign signings, or casting calls..." class="w-full bg-haven-dark/80 text-white p-3 rounded-lg border border-haven-amethyst focus:outline-none focus:border-haven-gold text-sm"></textarea>
+                        <button onclick="publishAdminPost()" class="px-5 py-2 rounded-lg bg-gradient-to-r from-haven-accent to-purple-600 text-white font-medium text-xs hover:opacity-90 transition">Publish Official Note</button>
+                    </div>
+
+                    <div id="admin-feed" class="space-y-4">
+                        <!-- Dynamic Posts -->
+                    </div>
+                </div>
+
+                <!-- Right: Active Sponsorship Deals Manager -->
+                <div class="glass-panel p-5 rounded-xl space-y-4">
+                    <h3 class="font-serif text-lg font-bold text-white flex items-center justify-between">
+                        <span><i class="fa-solid fa-file-contract text-haven-gold mr-2"></i>Active Deals</span>
+                        <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded">Live</span>
+                    </h3>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-haven-dark/70 rounded-lg border border-haven-amethyst space-y-1">
+                            <div class="flex justify-between font-bold text-white">
+                                <span>Gucci High Fashion Campaign</span>
+                                <span class="text-haven-gold">$450,000</span>
+                            </div>
+                            <p class="text-gray-400">Lead Model: Alia Bhatt & Deepika Padukone</p>
+                            <div class="w-full bg-haven-amethyst h-1.5 rounded-full overflow-hidden mt-2">
+                                <div class="bg-haven-gold h-full w-4/5"></div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-haven-dark/70 rounded-lg border border-haven-amethyst space-y-1">
+                            <div class="flex justify-between font-bold text-white">
+                                <span>L'Oréal Paris Runway Week</span>
+                                <span class="text-haven-gold">$280,000</span>
+                            </div>
+                            <p class="text-gray-400">Lead Ambassador: Katrina Kaif</p>
+                            <div class="w-full bg-haven-amethyst h-1.5 rounded-full overflow-hidden mt-2">
+                                <div class="bg-haven-accent h-full w-3/5"></div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-haven-dark/70 rounded-lg border border-haven-amethyst space-y-1">
+                            <div class="flex justify-between font-bold text-white">
+                                <span>Manish Malhotra Couture '26</span>
+                                <span class="text-haven-gold">$190,000</span>
+                            </div>
+                            <p class="text-gray-400">Featured Stars: Neha Sharma & Audity Bhatia</p>
+                            <div class="w-full bg-haven-amethyst h-1.5 rounded-full overflow-hidden mt-2">
+                                <div class="bg-purple-400 h-full w-2/5"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BRAND COLLABORATIONS SECTION -->
+        <section id="brands-section" class="hidden space-y-6">
+            <div class="glass-panel p-6 rounded-2xl border border-haven-gold/30 text-center">
+                <h2 class="font-serif text-3xl font-bold text-white">Official Brand Partners & Collaborations</h2>
+                <p class="text-haven-rose/70 text-sm mt-1">Global luxury fashion houses and beauty conglomerates powered by Bolly Haven talent.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="glass-panel p-6 rounded-xl flex flex-col items-center text-center space-y-3 glass-panel-hover">
+                    <i class="fa-solid fa-crown text-3xl text-haven-gold"></i>
+                    <h3 class="font-serif font-bold text-lg text-white">GUCCI</h3>
+                    <p class="text-xs text-gray-400">High Fashion Global Representative & Met Gala Placements</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl flex flex-col items-center text-center space-y-3 glass-panel-hover">
+                    <i class="fa-solid fa-gem text-3xl text-haven-rose"></i>
+                    <h3 class="font-serif font-bold text-lg text-white">VOGUE INDIA</h3>
+                    <p class="text-xs text-gray-400">Monthly Cover Shoot Contracts & Special Editorial Features</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl flex flex-col items-center text-center space-y-3 glass-panel-hover">
+                    <i class="fa-solid fa-[#F3E8FF] fa-spray-can-sparkles text-3xl text-purple-400"></i>
+                    <h3 class="font-serif font-bold text-lg text-white">NYKAA BEAUTY</h3>
+                    <p class="text-xs text-gray-400">Exclusive Cosmetic Launch Brand Endorsements</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl flex flex-col items-center text-center space-y-3 glass-panel-hover">
+                    <i class="fa-solid fa-ribbon text-3xl text-amber-400"></i>
+                    <h3 class="font-serif font-bold text-lg text-white">MANISH MALHOTRA</h3>
+                    <p class="text-xs text-gray-400">Bridal Couture Showstopper Contracts & Festive Lines</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CELEBRITY PROFILE & GALLERY MODAL -->
+    <div id="star-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-2xl border border-haven-gold/40 p-6 relative text-white space-y-6">
+            <button onclick="closeStarModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-haven-dark border border-haven-gold/40 flex items-center justify-center text-haven-rose hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Modal Content Header -->
+            <div id="modal-body-header" class="flex flex-col md:flex-row gap-6">
+                <!-- Profile Image populated via JS -->
+            </div>
+
+            <!-- Reaction Bar inside Modal -->
+            <div id="modal-reactions" class="flex flex-wrap items-center gap-3 p-3 bg-haven-dark/60 rounded-xl border border-haven-amethyst">
+                <!-- Sparkle reaction counters JS -->
+            </div>
+
+            <!-- Image Gallery (4-5 High Quality Photos) -->
+            <div class="space-y-2">
+                <h4 class="font-serif text-md font-bold text-haven-rose"><i class="fa-solid fa-images mr-2"></i>Exclusive Portfolio Gallery</h4>
+                <div id="modal-gallery-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <!-- Gallery photos JS -->
+                </div>
+            </div>
+
+            <!-- Interactive Comment Section -->
+            <div class="space-y-4 pt-4 border-t border-haven-amethyst">
+                <h4 class="font-serif text-md font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-comments text-haven-gold"></i> Live Fan Impressions & Comments
+                </h4>
+                <div class="flex gap-2">
+                    <input type="text" id="modal-comment-input" placeholder="Express your thought or admiration..." class="flex-1 bg-haven-dark text-white p-2.5 rounded-lg border border-haven-amethyst focus:outline-none focus:border-haven-gold text-sm">
+                    <button onclick="addStarComment()" class="px-4 py-2 bg-haven-gold text-haven-dark font-bold text-xs rounded-lg hover:brightness-110">Post</button>
+                </div>
+                <div id="modal-comments-list" class="space-y-2 max-h-40 overflow-y-auto pr-2 text-xs">
+                    <!-- Comments JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CODE INSPECT & DOWNLOAD MODAL -->
+    <div id="download-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-3xl w-full rounded-2xl border border-haven-gold/50 p-6 relative text-white space-y-4">
+            <div class="flex justify-between items-center pb-3 border-b border-haven-amethyst">
+                <h3 class="font-serif text-xl font-bold text-haven-gold flex items-center gap-2">
+                    <i class="fa-solid fa-file-code"></i> Download Bolly Haven Source Code
+                </h3>
+                <button onclick="closeDownloadModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <p class="text-xs text-gray-300">You can copy the entire standalone web application source code below or click the direct download button to export the single `.html` file.</p>
+
+            <div class="relative">
+                <textarea id="code-textarea" readonly class="w-full h-64 bg-haven-dark/90 text-green-400 font-mono text-xs p-4 rounded-xl border border-haven-amethyst focus:outline-none overflow-y-auto select-all"></textarea>
+                <button onclick="copyCodeToClipboard()" class="absolute top-3 right-3 px-3 py-1.5 bg-haven-amethyst hover:bg-haven-gold hover:text-haven-dark text-white text-xs rounded transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-copy"></i> Copy Code
+                </button>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeDownloadModal()" class="px-4 py-2 rounded-lg text-xs bg-haven-dark text-gray-300 hover:text-white border border-haven-amethyst">Close</button>
+                <button onclick="downloadHTMLFile()" class="px-5 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-haven-gold to-amber-500 text-haven-dark hover:brightness-110 flex items-center gap-2">
+                    <i class="fa-solid fa-download"></i> Save index.html
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Comprehensive dataset of 100 Bollywood Actresses and Models with Unsplash Portrait Images
+        const STAR_NAMES = [
+            "Neha Sharma", "Audity Bhatia", "Alia Bhatt", "Deepika Padukone", "Ayesha Takia", 
+            "Katrina Kaif", "Kangana Ranaut", "Kriti Sanon", "Kiara Advani", "Ananya Panday",
+            "Sara Ali Khan", "Shraddha Kapoor", "Janhvi Kapoor", "Disha Patani", "Nora Fatehi",
+            "Jacqueline Fernandez", "Priyanka Chopra", "Kareena Kapoor", "Anushka Sharma", "Sonam Kapoor",
+            "Pooja Hegde", "Rakul Preet Singh", "Tara Sutaria", "Tamannaah Bhatia", "Yami Gautam",
+            "Aditi Rao Hydari", "Sobhita Dhulipala", "Mrunal Thakur", "Bhumi Pednekar", "Fatima Sana Shaikh",
+            "Sanya Malhotra", "Wamiqa Gabbi", "Manushi Chhillar", "Urfi Javed", "Esha Gupta",
+            "Urvashi Rautela", "Nushrratt Bharuccha", "Ileana D'Cruz", "Kajal Aggarwal", "Samantha Ruth Prabhu",
+            "Rashmika Mandanna", "Nayanatara", "Keerthy Suresh", "Trisha Krishnan", "Hansika Motwani",
+            "Shriya Saran", "Amy Jackson", "Evelyn Sharma", "Rhea Chakraborty", "Nargis Fakhri",
+            "Dia Mirza", "Lara Dutta", "Sushmita Sen", "Aishwarya Rai", "Preity Zinta",
+            "Rani Mukerji", "Kajol Devgn", "Tabu", "Bipasha Basu", "Mallika Sherawat", "Celina Jaitly",
+            "Minissha Lamba", "Amrita Rao", "Genelia D'Souza", "Asin Thottumkal", "Prachi Desai",
+            "Daisy Shah", "Sonal Chauhan", "Sonnalli Seygall", "Payal Rajput", "Rhea Sharma",
+            "Aakanksha Singh", "Sanjeeda Sheikh", "Krystle D'Souza", "Nia Sharma", "Hina Khan",
+            "Mouni Roy", "Karishma Tanna", "Rubina Dilaik", "Tejasswi Prakash", "Shehnaaz Gill",
+            "Avneet Kaur", "Jannat Zubair", "Anushka Sen", "Miesha Iyer", "Divya Agarwal",
+            "Mahira Sharma", "Jasmin Bhasin", "Nikki Tamboli", "Palak Tiwari", "Rasha Thadani",
+            "Pashmina Roshan", "Shanaya Kapoor", "Suhana Khan", "Khushi Kapoor", "Agastya Nanda",
+            "Alaya F", "Sharvari Wagh", "Medha Shankr", "Triptii Dimri"
+        ];
+
+        // High quality fashion portrait links from Unsplash
+        const PORTRAIT_POOL = [
+            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80"
+        ];
+
+        const CATEGORIES = ["Star Actresses", "Runway Models", "Rising Icons"];
+
+        // Generate 100 complete profile objects
+        const starsData = STAR_NAMES.map((name, idx) => {
+            const cat = idx < 35 ? "Star Actresses" : (idx < 70 ? "Runway Models" : "Rising Icons");
+            const image = PORTRAIT_POOL[idx % PORTRAIT_POOL.length];
+            return {
+                id: idx + 1,
+                name: name,
+                category: cat,
+                image: image,
+                followers: Math.floor(Math.random() * 800) + 100 + "K",
+                isFollowing: false,
+                reactions: { sparkle: 120 + idx * 3, bloom: 85 + idx, mystique: 45 + idx, glam: 210 + idx * 2 },
+                gallery: [
+                    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=500&q=80"
+                ],
+                bio: `${name} is a leading style icon and performer in the South Asian cinema and luxury fashion circuit, known for stellar award-winning roles and international runway shows.`,
+                comments: [
+                    { user: "CinematicFan", text: "Absolute glamour and timeless grace! ✨" },
+                    { user: "FashionDaily", text: "Loving the new couture photoshoot gallery." }
+                ]
+            };
+        });
+
+        let currentCategory = 'All';
+        let currentPage = 1;
+        const itemsPerPage = 12;
+        let activeModalStarId = null;
+
+        function createPetals() {
+            const container = document.getElementById('petals-container');
+            for (let i = 0; i < 25; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const size = Math.random() * 12 + 8;
+                petal.style.width = size + 'px';
+                petal.style.height = (size * 1.5) + 'px';
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.top = -20 + 'px';
+                petal.style.animationDelay = (Math.random() * 10) + 's';
+                petal.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                container.appendChild(petal);
+            }
+        }
+
+        function renderStars() {
+            const grid = document.getElementById('stars-grid');
+            const searchVal = document.getElementById('search-input').value.toLowerCase();
+
+            // Filter logic
+            let filtered = starsData.filter(star => {
+                const matchesCat = currentCategory === 'All' || star.category === currentCategory;
+                const matchesSearch = star.name.toLowerCase().includes(searchVal) || star.category.toLowerCase().includes(searchVal);
+                return matchesCat && matchesSearch;
+            });
+
+            // Pagination calculation
+            const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const pageStars = filtered.slice(startIdx, startIdx + itemsPerPage);
+
+            grid.innerHTML = pageStars.map(star => `
+                <div class="glass-panel rounded-2xl overflow-hidden glass-panel-hover flex flex-col justify-between group">
+                    <div class="relative overflow-hidden cursor-pointer" onclick="openStarModal(${star.id})">
+                        <img src="${star.image}" alt="${star.name}" class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-haven-dark via-transparent to-transparent opacity-80"></div>
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-haven-dark/80 text-haven-rose border border-haven-gold/30">
+                            ${star.category}
+                        </span>
+                    </div>
+
+                    <div class="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-serif text-lg font-bold text-white hover:text-haven-gold transition cursor-pointer" onclick="openStarModal(${star.id})">
+                                ${star.name}
+                            </h3>
+                            <p class="text-xs text-gray-400 font-mono mt-0.5"><i class="fa-solid fa-users text-haven-rose mr-1"></i>${star.followers} Fans</p>
+                        </div>
+
+                        <!-- Sparkle Reaction bar -->
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-haven-amethyst/60">
+                            <button onclick="reactStar(${star.id}, 'sparkle')" class="text-haven-rose/80 hover:text-haven-gold transition flex items-center gap-1">
+                                ✨ <span>${star.reactions.sparkle}</span>
+                            </button>
+                            <button onclick="reactStar(${star.id}, 'bloom')" class="text-haven-rose/80 hover:text-haven-accent transition flex items-center gap-1">
+                                🌸 <span>${star.reactions.bloom}</span>
+                            </button>
+                            <button onclick="toggleFollow(${star.id})" class="px-3 py-1 rounded-full text-xs font-semibold ${star.isFollowing ? 'bg-haven-amethyst text-white border border-haven-gold/50' : 'bg-haven-gold text-haven-dark hover:brightness-110'} transition">
+                                ${star.isFollowing ? 'Following' : '+ Follow'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const container = document.getElementById('pagination-container');
+            let html = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
+                    <button onclick="goToPage(${i})" class="w-8 h-8 rounded-lg text-xs font-bold transition ${currentPage === i ? 'bg-haven-gold text-haven-dark' : 'bg-haven-dark text-haven-rose border border-haven-amethyst hover:border-haven-gold'}">
+                        ${i}
+                    </button>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderStars();
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            currentPage = 1;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.innerText.includes(cat)) {
+                    btn.className = 'cat-btn active px-4 py-1.5 rounded-lg text-xs font-semibold bg-haven-gold text-haven-dark transition';
+                } else {
+                    btn.className = 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-haven-dark text-haven-rose border border-haven-amethyst hover:border-haven-gold transition';
+                }
+            });
+            renderStars();
+        }
+
+        function filterStars() {
+            currentPage = 1;
+            renderStars();
+        }
+
+        function toggleFollow(starId) {
+            const star = starsData.find(s => s.id === starId);
+            if (star) {
+                star.isFollowing = !star.isFollowing;
+                renderStars();
+                if (activeModalStarId === starId) openStarModal(starId);
+            }
+        }
+
+        function reactStar(starId, type) {
+            const star = starsData.find(s => s.id === starId);
+            if (star && star.reactions[type] !== undefined) {
+                star.reactions[type]++;
+                renderStars();
+                if (activeModalStarId === starId) openStarModal(starId);
+            }
+        }
+
+        function openStarModal(starId) {
+            activeModalStarId = starId;
+            const star = starsData.find(s => s.id === starId);
+            if (!star) return;
+
+            const headerContainer = document.getElementById('modal-body-header');
+            headerContainer.innerHTML = `
+                <img src="${star.image}" class="w-full md:w-48 h-64 object-cover rounded-xl border border-haven-gold/40 shadow-lg">
+                <div class="space-y-3 flex-1">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] bg-haven-accent/20 text-haven-rose border border-haven-accent/40 font-semibold">${star.category}</span>
+                            <h3 class="font-serif text-2xl font-bold text-white mt-1">${star.name}</h3>
+                        </div>
+                        <button onclick="toggleFollow(${star.id})" class="px-4 py-1.5 rounded-full text-xs font-bold ${star.isFollowing ? 'bg-haven-amethyst text-white' : 'bg-haven-gold text-haven-dark'}">
+                            ${star.isFollowing ? 'Following Star' : '+ Follow Star'}
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed">${star.bio}</p>
+                    <div class="flex gap-4 text-xs font-mono text-haven-rose">
+                        <span><i class="fa-solid fa-users text-haven-gold"></i> ${star.followers} Fans</span>
+                        <span><i class="fa-solid fa-film text-haven-gold"></i> 24+ Feature Films</span>
+                    </div>
+                </div>
+            `;
+
+            // Reaction bar modal
+            document.getElementById('modal-reactions').innerHTML = `
+                <span class="text-xs font-bold text-haven-rose/80 mr-2">Reactions:</span>
+                <button onclick="reactStar(${star.id}, 'sparkle')" class="px-3 py-1 bg-haven-dark rounded-lg text-xs hover:border hover:border-haven-gold">✨ Sparkle (${star.reactions.sparkle})</button>
+                <button onclick="reactStar(${star.id}, 'bloom')" class="px-3 py-1 bg-haven-dark rounded-lg text-xs hover:border hover:border-haven-gold">🌸 Bloom (${star.reactions.bloom})</button>
+                <button onclick="reactStar(${star.id}, 'mystique')" class="px-3 py-1 bg-haven-dark rounded-lg text-xs hover:border hover:border-haven-gold">💫 Mystique (${star.reactions.mystique})</button>
+                <button onclick="reactStar(${star.id}, 'glam')" class="px-3 py-1 bg-haven-dark rounded-lg text-xs hover:border hover:border-haven-gold">🔥 Glam (${star.reactions.glam})</button>
+            `;
+
+            // Portfolio Photos
+            document.getElementById('modal-gallery-grid').innerHTML = star.gallery.map(img => `
+                <img src="${img}" class="w-full h-28 object-cover rounded-lg border border-haven-amethyst hover:scale-105 transition cursor-pointer">
+            `).join('');
+
+            // Modal Comments List
+            renderModalComments(star);
+
+            document.getElementById('star-modal').classList.remove('hidden');
+        }
+
+        function renderModalComments(star) {
+            const list = document.getElementById('modal-comments-list');
+            list.innerHTML = star.comments.map(c => `
+                <div class="p-2.5 rounded-lg bg-haven-dark/70 border border-haven-amethyst/50">
+                    <span class="font-bold text-haven-gold">${c.user}: </span>
+                    <span class="text-gray-200">${c.text}</span>
+                </div>
+            `).join('');
+        }
+
+        function addStarComment() {
+            const input = document.getElementById('modal-comment-input');
+            const val = input.value.trim();
+            if (!val || !activeModalStarId) return;
+
+            const star = starsData.find(s => s.id === activeModalStarId);
+            if (star) {
+                star.comments.unshift({ user: "GuestUser", text: val });
+                renderModalComments(star);
+                input.value = '';
+            }
+        }
+
+        function closeStarModal() {
+            document.getElementById('star-modal').classList.add('hidden');
+            activeModalStarId = null;
+        }
+
+        function switchTab(tab) {
+            document.getElementById('directory-section').classList.add('hidden');
+            document.getElementById('admin-section').classList.add('hidden');
+            document.getElementById('brands-section').classList.add('hidden');
+
+            document.getElementById('nav-directory').className = "px-3 py-1.5 rounded-full text-gray-300 hover:text-haven-rose transition";
+            document.getElementById('nav-admin').className = "px-3 py-1.5 rounded-full text-gray-300 hover:text-haven-rose transition";
+            document.getElementById('nav-brands').className = "px-3 py-1.5 rounded-full text-gray-300 hover:text-haven-rose transition";
+
+            if (tab === 'directory') {
+                document.getElementById('directory-section').classList.remove('hidden');
+                document.getElementById('nav-directory').className = "px-3 py-1.5 rounded-full text-haven-gold border border-haven-gold/40 bg-haven-amethyst/50 transition";
+            } else if (tab === 'admin') {
+                document.getElementById('admin-section').classList.remove('hidden');
+                document.getElementById('nav-admin').className = "px-3 py-1.5 rounded-full text-haven-gold border border-haven-gold/40 bg-haven-amethyst/50 transition";
+            } else if (tab === 'brands') {
+                document.getElementById('brands-section').classList.remove('hidden');
+                document.getElementById('nav-brands').className = "px-3 py-1.5 rounded-full text-haven-gold border border-haven-gold/40 bg-haven-amethyst/50 transition";
+            }
+        }
+
+        // Admin Posts Dataset
+        const adminPosts = [
+            { id: 1, title: "Official Partnership with Vogue India 2026 Editorial", time: "2 hours ago", text: "We are thrilled to announce that 12 stars from Bolly Haven directory have been selected for the upcoming Winter Cover edition." },
+            { id: 2, title: "Platform Milestone: 100 Talent Profiles Active", time: "1 day ago", text: "Our directory now features curated high-resolution gallery portfolios for 100 top stars including Neha Sharma, Audity Bhatia, Alia Bhatt, and Deepika Padukone." }
+        ];
+
+        function renderAdminPosts() {
+            const feed = document.getElementById('admin-feed');
+            feed.innerHTML = adminPosts.map(post => `
+                <div class="glass-panel p-4 rounded-xl space-y-2 border border-haven-gold/20">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-haven-gold">${post.title}</span>
+                        <span class="text-gray-400 font-mono">${post.time}</span>
+                    </div>
+                    <p class="text-xs text-gray-200 leading-relaxed">${post.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function publishAdminPost() {
+            const input = document.getElementById('admin-post-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            adminPosts.unshift({
+                id: Date.now(),
+                title: "Studio Update by Executive Amim Ahsan",
+                time: "Just now",
+                text: val
+            });
+
+            renderAdminPosts();
+            input.value = '';
+        }
+
+        function openDownloadModal() {
+            const htmlContent = document.documentElement.outerHTML;
+            document.getElementById('code-textarea').value = "<!DOCTYPE html>\n" + htmlContent;
+            document.getElementById('download-modal').classList.remove('hidden');
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('download-modal').classList.add('hidden');
+        }
+
+        function copyCodeToClipboard() {
+            const textarea = document.getElementById('code-textarea');
+            textarea.select();
+            document.execCommand('copy');
+            alert("Bolly Haven source code copied to clipboard!");
+        }
+
+        function downloadHTMLFile() {
+            const code = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([code], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'bolly_haven_100_stars.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        window.onload = function() {
+            createPetals();
+            renderStars();
+            renderAdminPosts();
+        };
+    </script>
+</body>
+</html>
